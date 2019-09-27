@@ -1,0 +1,36 @@
+﻿@model IEnumerable<ABCSupermarketMVC.Models.Product>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+    <div class="main-wrapper">
+        <div class="custom-card-header">
+            <h1 class="title">Products</h1>
+            <div class="header-controls">
+                <a asp-controller="Products" asp-action="Create" class="material-icons big-icon">add_box</a>
+            </div>
+
+        </div>
+        <div class="dark-hr"></div>
+        <div class="card-wrapper">
+            @foreach(Product product in Model)
+            {
+                <div class="card">
+                    <div class="custom-container">
+                        <div class="options-wrapper">
+                            <a href=""><i class="material-icons delete-icon">delete</i></a>
+                            <a href=""><i class="material-icons edit-icon">edit</i></a>
+                        </div>
+                        <img class="card-img" src="data:image/jpeg;base64,@Convert.ToBase64String(product.ProductImage)" />
+                        <span class="custom-card-title">@product.ProductName</span>
+                        <span class="card-desc">@product.ProductDesc</span>
+                        <span class="card-price">R @product.ProductPrice</span>
+
+                    </div>
+
+                </div>
+            }
+        </div>
+
+    </div>

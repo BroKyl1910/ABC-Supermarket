@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using ABCSupermarketMVC.Models;
 
 namespace ABCSupermarketMVC
 {
@@ -33,6 +35,9 @@ namespace ABCSupermarketMVC
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddDbContext<ABCSupermarketMVCContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("ABCSupermarketMVCContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,7 +61,7 @@ namespace ABCSupermarketMVC
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Products}/{action=Index}/{id?}");
             });
         }
     }

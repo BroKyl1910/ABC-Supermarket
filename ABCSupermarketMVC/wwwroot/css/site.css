@@ -1,15 +1,10 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\ 
 for details on configuring this project to bundle and minify static web assets. */
-body {
-    padding-top: 50px;
-    padding-bottom: 20px;
-}
 
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding:30px;
 }
 
 /* Carousel */
@@ -28,10 +23,299 @@ body {
     margin: 15px;
 }
 
-/* Hide/rearrange for smaller screens */
-@media screen and (max-width: 767px) {
-    /* Hide captions */
-    .carousel-caption {
-        display: none;
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+* {
+    font-family: "Montserrat";
+}
+
+    *::-webkit-scrollbar {
+        width: 5px;
+        border-radius: 50%;
+    }
+
+    *::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.51);
+        box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.51);
+    }
+
+    *::-webkit-scrollbar-thumb {
+        background-color: darkgrey;
+        outline: 1px solid slategrey;
+    }
+
+.main-wrapper {
+    padding-left: 10px;
+}
+
+.dark-hr {
+    margin-top: 0;
+    margin-bottom: 10px;
+    height: 0;
+    width: 100%;
+    border-top: 1px solid rgba(0,0,0,0.9);
+}
+
+.another-wrapper {
+    width: 70%;
+    margin: 0 auto;
+}
+
+.card-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.card {
+    margin: 15px;
+    background: rgba(255,255,255,0.9);
+    border-radius: 5px;
+    border: 1px solid rgba(0,0,0,0.2);
+    box-shadow: 2px 2px 15px 0px rgba(0,0,0,0.75);
+    padding: 20px;
+    flex-basis: 20%;
+}
+
+.create-card {
+    margin: 15px;
+    background: rgba(255,255,255,0.9);
+    border-radius: 5px;
+    border: 1px solid rgba(0,0,0,0.2);
+    box-shadow: 2px 2px 15px 0px rgba(0,0,0,0.75);
+    padding: 20px;
+    flex-basis: 40%;
+}
+
+
+.custom-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.card-img {
+    width: 70%;
+    margin: 0 auto;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.custom-card-title {
+    margin-top: 10px;
+    font-weight:bold;
+    font-size: 1.2em;
+}
+
+.card-desc {
+    margin-top: 5px;
+    font-size: 1em;
+}
+
+.card-price {
+    margin-top: 20px;
+    font-size: 0.8em;
+    font-weight: bold;
+}
+
+.card-link {
+    margin-top: 15px;
+    padding: 5px;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    width: 100%;
+    border-radius: 5px;
+    background: rgba(0,123,255,0.8);
+    text-align: center;
+}
+
+
+    .card-link:hover {
+        background: rgba(0,123,255,1);
+    }
+
+.options-wrapper {
+    display: flex;
+    width: 100%;
+    margin-bottom: 15px;
+    flex-direction: row-reverse;
+}
+
+.material-icons {
+    font-size: 1.5em;
+    color: rgba(0,0,0,0.5);
+}
+
+    .material-icons:hover {
+        color: rgba(0,0,0,0.8);
+        cursor: pointer;
+    }
+
+.edit-icon {
+    margin-right: 5px;
+}
+
+.big-icon{
+    font-size: 2.0em;
+}
+
+.custom-card-header {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+    .inputfile + .upload-label {
+        font-size: 1.25em;
+        font-weight: 700;
+        display: inline-block;
+    }
+
+.upload-label {
+    /*   background-color: rgba(0,0,0,0.5); */
+    color: white;
+}
+
+.inputfile:focus + .upload-label,
+.inputfile + .upload-label:hover {
+    /*     background: rgba(0,0,0,0.8); */
+    cursor: pointer;
+}
+
+.inputfile:focus + .upload-label {
+    outline: 1px dotted #000;
+    outline: -webkit-focus-ring-color auto 5px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 5px;
+    border-radius: none;
+    border: none;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    font-size: 1.2em;
+    margin-top: 20px;
+    resize: none;
+}
+
+.image-container {
+    height: 300px;
+    width: 500px;
+    margin: 10px auto;
+    text-align: center;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 5px;
+}
+
+.image-edit-icon {
+    display: none;
+}
+
+.image-delete-icon {
+    font-size: 30px;
+    display: none;
+}
+
+.no-image-text {
+    align-self: center;
+    display: block;
+}
+
+.upload-img {
+    display: none;
+    max-height: 300px;
+    max-width: 500px;
+    border-radius: 5px;
+    box-shadow: 2px 2px 2px rgba(0,0,0,0.5);
+}
+
+.form-control-container {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    height: 70%;
+}
+
+.form-button-container {
+    display: flex;
+    flex-direction: row-reverse;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.form-button {
+    padding: 5px 10px;
+    background: rgba(0, 123, 255, 0.8);
+    border: none;
+    color: white;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 1.2em;
+    cursor: pointer;
+}
+
+    .form-button:hover {
+        background: rgba(0, 123, 255, 1);
+    }
+
+.back-button {
+    padding: 5px 10px;
+    background: transparent;
+    border: none;
+    color: black;
+    border-radius: 5px;
+    font-size: 1.2em;
+    cursor: pointer;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+    .back-button:hover {
+        font-weight: bold;
+        text-decoration:none;
+    }
+
+.header-controls {
+    display: flex;
+    flex-direction: row;
+    font-weight: 700;
+}
+
+form {
+    width: 100%;
+    height: 100%;
+}
+
+@media (max-width: 1187px) {
+
+    .card {
+        flex-basis: 25%;
+    }
+}
+
+@media (max-width: 975px){
+
+    .card{
+        flex-basis: 40%;
+    }
+}
+
+@media (max-width: 600px){
+    .card {
+        flex-basis: 60%;
     }
 }
