@@ -4,33 +4,93 @@
     ViewData["Title"] = "Index";
 }
 
-    <div class="main-wrapper">
-        <div class="custom-card-header">
-            <h1 class="title">Products</h1>
-            <div class="header-controls">
-                <a asp-controller="Products" asp-action="Create" class="material-icons big-icon">add_box</a>
-            </div>
-
-        </div>
-        <div class="dark-hr"></div>
-        <div class="card-wrapper">
-            @foreach(Product product in Model)
-            {
-                <div class="card">
-                    <div class="custom-container">
-                        <div class="options-wrapper">
-                            <a href=""><i class="material-icons delete-icon">delete</i></a>
-                            <a href=""><i class="material-icons edit-icon">edit</i></a>
-                        </div>
-                        <img class="card-img" src="data:image/jpeg;base64,@Convert.ToBase64String(product.ProductImage)" />
-                        <span class="custom-card-title">@product.ProductName</span>
-                        <span class="card-desc">@product.ProductDesc</span>
-                        <span class="card-price">R @product.ProductPrice</span>
-
-                    </div>
-
-                </div>
-            }
+<div class="main-wrapper">
+    <div class="custom-card-header">
+        <h1 class="title">Products</h1>
+        <div class="header-controls">
+            <a asp-controller="Products" asp-action="Create" class="material-icons big-icon">add_box</a>
         </div>
 
     </div>
+    <div class="dark-hr"></div>
+    <div class="card-wrapper">
+        @foreach (Product product in Model)
+        {
+            <div class="custom-card">
+                <div class="custom-container">
+                    <div class="options-wrapper">
+                       <i class="material-icons delete-icon" id="@product.ProductId">delete</i>
+                       <a asp-action="Edit" asp-route-id="@product.ProductId"><i class="material-icons edit-icon">edit</i></a>
+                    </div>
+                    <div class="index-image-container">
+                        <img class="card-img" src="data:image/jpeg;base64,@Convert.ToBase64String(product.ProductImage)" />
+                    </div>
+                    <div class="card-product-info">
+                        <span class="custom-card-title">@product.ProductName</span>
+                        <span class="card-desc">@product.ProductDesc</span>
+                        <span class="card-price">R @product.ProductPrice</span>
+                    </div>
+
+                </div>
+
+            </div>
+        }
+    </div>
+
+</div>
+
+<div id="popup-container">
+    <div id="delete-form-wrapper" class="rounded-container form-wrapper">
+        <h1>Confirm Delete</h1>
+        <hr>
+        <p style="color:white;">Are you sure you want to delete this product?</p>
+        <div class="control-group pull-right delete-button-group">
+            <input class="delete-confirm-button" id="delete-no-button" type="button" value="No">
+            <input class="delete-confirm-button" id="delete-yes-button" type="button" value="Yes">
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+    var idToDelete = null;
+    //Delete button pressed
+    $('.delete-icon').on('click', (evt) => {
+        idToDelete = Number(evt.currentTarget.id);
+        $('#popup-container').fadeIn();
+        $('#delete-form-wrapper').show();
+        $('#add-form-wrapper').hide();
+    });
+
+    //Delete cancelled
+    $('#delete-no-button').on('click', () => {
+        $('#popup-container').fadeOut();
+        idToDelete = null;
+    });
+
+    //Delete confirmed
+    $('#delete-yes-button').on('click', () => {
+        $('#popup-container').fadeOut(400, () => {
+            //window.location.replace('/Products/Delete/?id=' + idToDelete);
+            $.ajax({
+                method: "POST",
+                url: '/Products/Delete/?id=' + idToDelete,
+                success: () => {
+                    window.location.replace('/Products/Index');
+                }
+            })
+        });
+    });
+
+    //Close popup
+    $(document).mouseup(function (e) {
+        var container = $(".form-wrapper");
+
+        if (!container.is(e.target) // if the target of the click isn't the container...
+            && container.has(e.target).length === 0) // ... nor a descendant of the container
+        {
+            $('#popup-container').fadeOut();
+        }
+    });
+</script>

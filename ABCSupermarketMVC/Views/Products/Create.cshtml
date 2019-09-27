@@ -39,7 +39,7 @@
                 <div class="form-control-container">
                     <input type="text" asp-for="ProductName" id="prod-name" placeholder="Product Name" class="form-input">
                     <span asp-validation-for="ProductName" class="text-danger"></span>
-                    <input type="number" asp-for="ProductPrice" id="prod-price" placeholder="Product Price" class="form-input">
+                    <input asp-for="ProductPrice" id="prod-price" placeholder="Product Price" class="form-input">
                     <span asp-validation-for="ProductPrice" class="text-danger"></span>
                     <textarea asp-for="ProductDesc" id="prod-desc" placeholder="Product Description" class="form-input"></textarea>
                     <span asp-validation-for="ProductDesc" class="text-danger"></span>
@@ -47,7 +47,7 @@
                 </div>
                 <div class="form-button-container">
                     <input id="submit-btn" type="button" class="form-button" value="Save Product">
-                    <a href="" class="back-button">Back</a>
+                    <a asp-action="Index" class="back-button">Back</a>
                 </div>
 
             </div>

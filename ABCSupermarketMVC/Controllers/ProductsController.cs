@@ -55,14 +55,14 @@ namespace ABCSupermarketMVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public async Task<string> Create(string ProductName, string ProductDesc, double ProductPrice, IFormFile ProductImage)
+        public async Task<string> Create(string ProductName, string ProductDesc, string ProductPrice, IFormFile ProductImage)
         {
             //[Bind("ProductName,ProductDesc,ProductPrice")] Product product
             Product product = new Product()
             {
                 ProductName = ProductName,
                 ProductDesc = ProductDesc,
-                ProductPrice = (decimal)ProductPrice
+                ProductPrice = Convert.ToDecimal(ProductPrice.Replace('.', ','))
             };
             //https://stackoverflow.com/questions/42741170/how-to-save-images-to-database-using-asp-net-core
             using (var ms = new MemoryStream())
@@ -73,8 +73,8 @@ namespace ABCSupermarketMVC.Controllers
 
             _context.Add(product);
             await _context.SaveChangesAsync();
-            return "done";
-            
+            return "OK";
+
         }
 
         // GET: Products/Edit/5
@@ -97,35 +97,41 @@ namespace ABCSupermarketMVC.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductId,ProductName,ProductDesc,ProductImage,ProductPrice")] Product product)
+        //[ValidateAntiForgeryToken]
+        public async Task<string> Edit(int ProductID, string ProductName, string ProductDesc, string ProductPrice, IFormFile ProductImage)
         {
-            if (id != product.ProductId)
+            Product product = _context.Product.First(p => p.ProductId == ProductID);
+            product.ProductName = ProductName;
+            product.ProductDesc = ProductDesc;
+            product.ProductPrice = Convert.ToDecimal(ProductPrice.Replace('.', ','));
+
+            //If image is null, means value of file select wasnt changed
+            if (ProductImage != null)
             {
-                return NotFound();
+                using (var ms = new MemoryStream())
+                {
+                    ProductImage.CopyTo(ms);
+                    product.ProductImage = ms.ToArray();
+                }
             }
 
-            if (ModelState.IsValid)
+            try
             {
-                try
-                {
-                    _context.Update(product);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProductExists(product.ProductId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                _context.Update(product);
+                await _context.SaveChangesAsync();
             }
-            return View(product);
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ProductExists(product.ProductId))
+                {
+                    return "404. Product not found";
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return "OK";
         }
 
         // GET: Products/Delete/5
@@ -148,7 +154,7 @@ namespace ABCSupermarketMVC.Controllers
 
         // POST: Products/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var product = await _context.Product.FindAsync(id);

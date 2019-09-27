@@ -65,9 +65,10 @@ for details on configuring this project to bundle and minify static web assets. 
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    align-items:center;
 }
 
-.card {
+.custom-card {
     margin: 15px;
     background: rgba(255,255,255,0.9);
     border-radius: 5px;
@@ -92,6 +93,7 @@ for details on configuring this project to bundle and minify static web assets. 
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    height:100%;
 }
 
 .card-img {
@@ -221,6 +223,23 @@ for details on configuring this project to bundle and minify static web assets. 
     padding: 5px;
 }
 
+.index-image-container {
+    min-height:50%;
+    width:100%;
+    margin: 10px auto;
+    text-align: center;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 5px;
+}
+
+.card-product-info{
+    display:flex;
+    flex-direction:column;
+    /*min-height:50%;*/
+}
+
 .image-edit-icon {
     display: none;
 }
@@ -299,6 +318,54 @@ form {
     width: 100%;
     height: 100%;
 }
+
+#popup-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 98;
+    background-color: rgba(0,0,0,0.5);
+}
+
+#delete-form-wrapper {
+    display: none;
+    background-color: rgba(0,0,0,0.8);
+    border-radius: 5px;
+    padding: 30px;
+    margin-top: 20px;
+    position: absolute;
+    overflow-y: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
+    width: 60%;
+    color: white;
+}
+
+.delete-confirm-button {
+    background-color: rgba(255,255,255,0.2);
+    border: none;
+    color: white;
+    margin: 15px;
+    padding: 10px 30px;
+    border-radius: 5px;
+    cursor:pointer;
+}
+
+    .delete-confirm-button:hover {
+        background-color: rgba(255,255,255,0.4);
+        box-shadow: 1px 1px 1px rgba(255,255,255,0.2);
+    }
+
+.delete-button-group{
+    display:flex;
+    flex-direction:row-reverse;
+}
+
 
 @media (max-width: 1187px) {
 
