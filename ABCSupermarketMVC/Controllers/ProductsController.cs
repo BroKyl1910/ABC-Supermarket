@@ -23,25 +23,7 @@ namespace ABCSupermarketMVC.Controllers
         // GET: Products
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Product.ToListAsync());
-        }
-
-        // GET: Products/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var product = await _context.Product
-                .FirstOrDefaultAsync(m => m.ProductId == id);
-            if (product == null)
-            {
-                return NotFound();
-            }
-
-            return View(product);
+            return View(await _context.Product.OrderBy(p=> p.ProductName).ToListAsync());
         }
 
         // GET: Products/Create
@@ -54,10 +36,8 @@ namespace ABCSupermarketMVC.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        //[ValidateAntiForgeryToken]
         public async Task<string> Create(string ProductName, string ProductDesc, string ProductPrice, IFormFile ProductImage)
         {
-            //[Bind("ProductName,ProductDesc,ProductPrice")] Product product
             Product product = new Product()
             {
                 ProductName = ProductName,
@@ -78,8 +58,7 @@ namespace ABCSupermarketMVC.Controllers
         }
 
         [HttpPost]
-        //[ValidateAntiForgeryToken]
-        public async Task<string> Validate([Bind("ProductID,ProductName,ProductDesc,ProductPrice")] Product product, IFormFile ProductImage, bool Editing)
+        public string Validate([Bind("ProductID,ProductName,ProductDesc,ProductPrice")] Product product, IFormFile ProductImage, bool Editing)
         {
             //https://stackoverflow.com/questions/42741170/how-to-save-images-to-database-using-asp-net-core
             if (ProductImage != null)
@@ -121,11 +100,11 @@ namespace ABCSupermarketMVC.Controllers
             return View(product);
         }
 
+
         // POST: Products/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        //[ValidateAntiForgeryToken]
         public async Task<string> Edit(int ProductID, string ProductName, string ProductDesc, string ProductPrice, IFormFile ProductImage)
         {
             Product product = _context.Product.First(p => p.ProductId == ProductID);
@@ -161,28 +140,9 @@ namespace ABCSupermarketMVC.Controllers
             }
             return "OK";
         }
-
-        // GET: Products/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var product = await _context.Product
-                .FirstOrDefaultAsync(m => m.ProductId == id);
-            if (product == null)
-            {
-                return NotFound();
-            }
-
-            return View(product);
-        }
-
+        
         // POST: Products/Delete/5
         [HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var product = await _context.Product.FindAsync(id);

@@ -122,14 +122,16 @@
                 referenceCard = $('.product-card')[1];
             }
 
-            //Only change bottom margin if card is not in the last row of 4
+            //Only change bottom margin if card is not in the last row of 4 to prevent weird glitching
             var numCardsInLastRow = $('.product-card').length % 4;
+            var referenceHeight = $(referenceCard).height();
+            var newMarginBottom;
             if ($('.product-card').index($(e.currentTarget)) < $('.product-card').length - numCardsInLastRow) {
-                var referenceHeight = $(referenceCard).height();
-                var newMarginBottom = ($(e.currentTarget).height() + referenceHeight + 20) * - 1;
-                console.log("Should change bottom margin");
-                $(e.currentTarget).css("margin-bottom", newMarginBottom + "px");
+                newMarginBottom = ($(e.currentTarget).height() + referenceHeight + 20) * - 1;
+            } else {
+                newMarginBottom = (referenceHeight + 20) * - 1;
             }
+            $(e.currentTarget).css("margin-bottom", newMarginBottom + "px");
 
             $(descWrapper)
                 .stop(true, true)

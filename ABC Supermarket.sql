@@ -11,10 +11,3 @@ CREATE TABLE Product(
 	ProductImage VARBINARY(MAX),
 	ProductPrice DECIMAL(6,2)
 );
-
-ALTER TABLE PRODUCT
-ALTER COLUMN ProductImage VARBINARY(MAX);
-
-select * from product
-
-delete from product where productid=13
