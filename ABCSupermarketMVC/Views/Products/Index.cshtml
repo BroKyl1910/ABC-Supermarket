@@ -26,7 +26,15 @@
                         <img class="card-img" src="data:image/jpeg;base64,@Convert.ToBase64String(product.ProductImage)" />
                     </div>
                     <div class="card-product-info">
-                        <span class="custom-card-title">@product.ProductName</span>
+                        @if (product.ProductName.Length > 25)
+                        {
+                            <div class="custom-card-title custom-card-title-short">@product.ProductName.Substring(0, 25) ...</div>
+                            <div class="custom-card-title custom-card-title-full">@product.ProductName</div>
+                        }
+                        else
+                        {
+                            <div class="custom-card-title custom-card-title-short">@product.ProductName</div>
+                        }
                         <span class="card-price">R @product.ProductPrice</span>
                         <div class="desc-wrapper">
                             <div class="card-desc">@product.ProductDesc</div>
@@ -100,21 +108,51 @@
     //Expand details on hover
     $(".product-card").hoverIntent(
         e => {
+            var shortTitle = $(e.currentTarget).find(".custom-card-title-short");
+            var fullTitle = $(e.currentTarget).find(".custom-card-title-full");
             var descWrapper = $(e.currentTarget).find(".desc-wrapper");
+
             $(e.currentTarget).css("position", "relative");
             $(e.currentTarget).css("z-index", "1");
-            var newMarginBottom = ($(descWrapper).height() + 20) * -1;
-            $(e.currentTarget).css("margin-bottom", newMarginBottom + "px");
+
+            var referenceCard;
+            if ($(e.currentTarget) != $('.product-card')[0]) {
+                referenceCard = $('.product-card')[0];
+            } else {
+                referenceCard = $('.product-card')[1];
+            }
+
+            //Only change bottom margin if card is not in the last row of 4
+            var numCardsInLastRow = $('.product-card').length % 4;
+            if ($('.product-card').index($(e.currentTarget)) < $('.product-card').length - numCardsInLastRow) {
+                var referenceHeight = $(referenceCard).height();
+                var newMarginBottom = ($(e.currentTarget).height() + referenceHeight + 20) * - 1;
+                console.log("Should change bottom margin");
+                $(e.currentTarget).css("margin-bottom", newMarginBottom + "px");
+            }
 
             $(descWrapper)
                 .stop(true, true)
                 .slideDown(100, () => {
-                    var newMarginBottom = ($(descWrapper).height() + 20) * -1;
-                    $(e.currentTarget).css("margin-bottom", newMarginBottom + "px");
+
                 });
+
+            if (fullTitle.length > 0) {
+                $(fullTitle).slideDown();
+                $(shortTitle).hide();
+            }
+
         },
         e => {
             var descWrapper = $(e.currentTarget).find(".desc-wrapper");
+            var shortTitle = $(e.currentTarget).find(".custom-card-title-short");
+            var fullTitle = $(e.currentTarget).find(".custom-card-title-full");
+
+            if (fullTitle.length > 0) {
+                $(fullTitle).slideUp(100, () => {
+                    $(shortTitle).show();
+                });
+            }
 
             $(descWrapper)
                 .stop(true, true)

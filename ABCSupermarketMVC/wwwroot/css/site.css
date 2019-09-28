@@ -4,6 +4,10 @@
     padding: 30px;
 }
 
+footer{
+    margin-top: 200px;
+}
+
 /* Carousel */
 .carousel-caption p {
     font-size: 20px;
@@ -71,6 +75,7 @@
     box-shadow: 2px 2px 15px 0px rgba(0,0,0,0.75);
     padding: 20px;
     flex-basis: 20%;
+    flex-grow: 0;
 }
 
 .product-card {
@@ -119,16 +124,24 @@
 }
 
 .card-img {
-    width: 70%;
-    margin: 0 auto;
-    max-width: 100%;
     max-height: 100%;
+    object-fit: contain;
 }
 
 .custom-card-title {
     margin-top: 10px;
     font-weight: bold;
     font-size: 1.2em;
+    max-width:100%;
+}
+
+.custom-card-title-short {
+    height: 3.0em;
+    overflow:hidden;
+}
+
+.custom-card-title-full {
+    display:none;
 }
 
 .card-price {
@@ -244,7 +257,7 @@
 }
 
 .index-image-container {
-    min-height: 50%;
+    height: 200px;
     width: 100%;
     margin: 10px auto;
     text-align: center;

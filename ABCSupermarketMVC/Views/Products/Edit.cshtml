@@ -37,9 +37,9 @@
                 <div class="form-control-container">
                     <input type="hidden" value="@Model.ProductId" id="prod-id">
 
-                    <input type="text" asp-for="ProductName" id="prod-name" placeholder="Product Name" class="form-input">
+                    <input type="text" asp-for="ProductName" id="prod-name" placeholder="Product Name" class="form-input" maxlength="100">
                     <input asp-for="ProductPrice" id="prod-price" placeholder="Product Price" class="form-input">
-                    <textarea asp-for="ProductDesc" id="prod-desc" placeholder="Product Description" class="form-input"></textarea>
+                    <textarea asp-for="ProductDesc" id="prod-desc" placeholder="Product Description" class="form-input" maxlength="200"></textarea>
                     <span class="text-danger error-text"></span>
 
                 </div>
