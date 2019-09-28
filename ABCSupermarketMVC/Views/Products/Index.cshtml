@@ -16,19 +16,21 @@
     <div class="card-wrapper">
         @foreach (Product product in Model)
         {
-            <div class="custom-card">
+            <div class="custom-card product-card">
                 <div class="custom-container">
                     <div class="options-wrapper">
-                       <i class="material-icons delete-icon" id="@product.ProductId">delete</i>
-                       <a asp-action="Edit" asp-route-id="@product.ProductId"><i class="material-icons edit-icon">edit</i></a>
+                        <i class="material-icons delete-icon" id="@product.ProductId">delete</i>
+                        <a asp-action="Edit" asp-route-id="@product.ProductId"><i class="material-icons edit-icon">edit</i></a>
                     </div>
                     <div class="index-image-container">
                         <img class="card-img" src="data:image/jpeg;base64,@Convert.ToBase64String(product.ProductImage)" />
                     </div>
                     <div class="card-product-info">
                         <span class="custom-card-title">@product.ProductName</span>
-                        <span class="card-desc">@product.ProductDesc</span>
                         <span class="card-price">R @product.ProductPrice</span>
+                        <div class="desc-wrapper">
+                            <div class="card-desc">@product.ProductDesc</div>
+                        </div>
                     </div>
 
                 </div>
@@ -54,6 +56,7 @@
 
 
 <script>
+
     var idToDelete = null;
     //Delete button pressed
     $('.delete-icon').on('click', (evt) => {
@@ -93,4 +96,34 @@
             $('#popup-container').fadeOut();
         }
     });
+
+    //Expand details on hover
+    $(".product-card").hoverIntent(
+        e => {
+            var descWrapper = $(e.currentTarget).find(".desc-wrapper");
+            $(e.currentTarget).css("position", "relative");
+            $(e.currentTarget).css("z-index", "1");
+            var newMarginBottom = ($(descWrapper).height() + 20) * -1;
+            $(e.currentTarget).css("margin-bottom", newMarginBottom + "px");
+
+            $(descWrapper)
+                .stop(true, true)
+                .slideDown(100, () => {
+                    var newMarginBottom = ($(descWrapper).height() + 20) * -1;
+                    $(e.currentTarget).css("margin-bottom", newMarginBottom + "px");
+                });
+        },
+        e => {
+            var descWrapper = $(e.currentTarget).find(".desc-wrapper");
+
+            $(descWrapper)
+                .stop(true, true)
+                .slideUp(100, () => {
+                    $(e.currentTarget)
+                        .css("margin-bottom", "10px")
+                        .css("z-index", "0");
+                });
+        }
+    );
+
 </script>

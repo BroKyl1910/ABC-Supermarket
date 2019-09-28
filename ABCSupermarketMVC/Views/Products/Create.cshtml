@@ -38,11 +38,9 @@
 
                 <div class="form-control-container">
                     <input type="text" asp-for="ProductName" id="prod-name" placeholder="Product Name" class="form-input">
-                    <span asp-validation-for="ProductName" class="text-danger"></span>
                     <input asp-for="ProductPrice" id="prod-price" placeholder="Product Price" class="form-input">
-                    <span asp-validation-for="ProductPrice" class="text-danger"></span>
                     <textarea asp-for="ProductDesc" id="prod-desc" placeholder="Product Description" class="form-input"></textarea>
-                    <span asp-validation-for="ProductDesc" class="text-danger"></span>
+                    <span class="text-danger error-text"></span>
 
                 </div>
                 <div class="form-button-container">
@@ -82,17 +80,34 @@
     $('#submit-btn').click((e) => {
         var formData = new FormData();
         formData.append("ProductName", $('#prod-name').val());
-        formData.append("ProductPrice", $('#prod-price').val());
+        formData.append("ProductPrice", $('#prod-price').val().replace('.',','));
         formData.append("ProductDesc", $('#prod-desc').val());
         formData.append("ProductImage", $('#file')[0].files[0]);
+        formData.append("Editing", false);
 
-        var request = new XMLHttpRequest();
-        request.open("POST", "/Products/Create");
-        request.onreadystatechange = () => {
-            if (request.readyState === 4 && request.status === 200) {
-                window.location.replace("/Products/Index");
+        var valid;
+        var validationRequest = new XMLHttpRequest();
+        //Submit for validation
+        validationRequest.open("POST", "/Products/Validate");
+        validationRequest.onreadystatechange = () => {
+            //Valid, so submit to /Products/Create then redirect
+            if (validationRequest.readyState === 4 && validationRequest.status === 200 && validationRequest.response == "OK") {
+                $('.error-text').text("");
+                var createRequest = new XMLHttpRequest();
+                createRequest.open("POST", "/Products/Create");
+                //When new product has been posted, redirect to index
+                createRequest.onreadystatechange = () => {
+                    if (validationRequest.readyState === 4 && validationRequest.status === 200 && validationRequest.response == "OK") {
+                        window.location.replace("/Products/Index");
+                    }
+                }
+                createRequest.send(formData);
+            }
+            //Not valid, display validation errors
+            else {
+                $('.error-text').text(validationRequest.response);
             }
         }
-        request.send(formData);
+        validationRequest.send(formData);
     });
 </script>

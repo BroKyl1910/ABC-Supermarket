@@ -1,10 +1,7 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\ 
-for details on configuring this project to bundle and minify static web assets. */
+﻿@import url('https://fonts.googleapis.com/css?family=Montserrat');
 
-/* Wrapping element */
-/* Set some basic padding to keep content from hitting the edges */
 .body-content {
-    padding:30px;
+    padding: 30px;
 }
 
 /* Carousel */
@@ -22,8 +19,6 @@ for details on configuring this project to bundle and minify static web assets. 
 #qrCode {
     margin: 15px;
 }
-
-@import url('https://fonts.googleapis.com/css?family=Montserrat');
 
 * {
     font-family: "Montserrat";
@@ -65,7 +60,7 @@ for details on configuring this project to bundle and minify static web assets. 
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    align-items:center;
+    align-items: center;
 }
 
 .custom-card {
@@ -77,6 +72,33 @@ for details on configuring this project to bundle and minify static web assets. 
     padding: 20px;
     flex-basis: 20%;
 }
+
+.product-card {
+    align-self: flex-start;
+    flex-shrink: 0;
+}
+
+    .product-card:hover {
+        cursor: pointer;
+        border: 1px solid rgba(0,0,0,0.5);
+        box-shadow: 2px 2px 15px 0px rgba(0,0,0,1);
+    }
+
+.desc-wrapper {
+    display: none;
+    margin-top: 10px;
+    padding-top: 10px;
+    width: 100%;
+    border-top: 1px solid rgba(0,0,0,0.2);
+    transition: display 2s ease;
+    z-index: 100;
+}
+
+.card-desc {
+    margin: 0 10px;
+    font-size: 1em;
+}
+
 
 .create-card {
     margin: 15px;
@@ -93,7 +115,7 @@ for details on configuring this project to bundle and minify static web assets. 
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    height:100%;
+    height: 100%;
 }
 
 .card-img {
@@ -105,13 +127,8 @@ for details on configuring this project to bundle and minify static web assets. 
 
 .custom-card-title {
     margin-top: 10px;
-    font-weight:bold;
+    font-weight: bold;
     font-size: 1.2em;
-}
-
-.card-desc {
-    margin-top: 5px;
-    font-size: 1em;
 }
 
 .card-price {
@@ -158,7 +175,7 @@ for details on configuring this project to bundle and minify static web assets. 
     margin-right: 5px;
 }
 
-.big-icon{
+.big-icon {
     font-size: 2.0em;
 }
 
@@ -212,6 +229,9 @@ for details on configuring this project to bundle and minify static web assets. 
     resize: none;
 }
 
+.error-text{
+    margin-top:10px;
+}
 .image-container {
     height: 300px;
     width: 500px;
@@ -224,8 +244,8 @@ for details on configuring this project to bundle and minify static web assets. 
 }
 
 .index-image-container {
-    min-height:50%;
-    width:100%;
+    min-height: 50%;
+    width: 100%;
     margin: 10px auto;
     text-align: center;
     display: flex;
@@ -234,9 +254,9 @@ for details on configuring this project to bundle and minify static web assets. 
     padding: 5px;
 }
 
-.card-product-info{
-    display:flex;
-    flex-direction:column;
+.card-product-info {
+    display: flex;
+    flex-direction: column;
     /*min-height:50%;*/
 }
 
@@ -305,7 +325,7 @@ for details on configuring this project to bundle and minify static web assets. 
 
     .back-button:hover {
         font-weight: bold;
-        text-decoration:none;
+        text-decoration: none;
     }
 
 .header-controls {
@@ -353,7 +373,7 @@ form {
     margin: 15px;
     padding: 10px 30px;
     border-radius: 5px;
-    cursor:pointer;
+    cursor: pointer;
 }
 
     .delete-confirm-button:hover {
@@ -361,9 +381,9 @@ form {
         box-shadow: 1px 1px 1px rgba(255,255,255,0.2);
     }
 
-.delete-button-group{
-    display:flex;
-    flex-direction:row-reverse;
+.delete-button-group {
+    display: flex;
+    flex-direction: row-reverse;
 }
 
 
@@ -374,14 +394,14 @@ form {
     }
 }
 
-@media (max-width: 975px){
+@media (max-width: 975px) {
 
-    .card{
+    .card {
         flex-basis: 40%;
     }
 }
 
-@media (max-width: 600px){
+@media (max-width: 600px) {
     .card {
         flex-basis: 60%;
     }

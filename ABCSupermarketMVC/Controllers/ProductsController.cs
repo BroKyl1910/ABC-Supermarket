@@ -77,6 +77,34 @@ namespace ABCSupermarketMVC.Controllers
 
         }
 
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public async Task<string> Validate([Bind("ProductID,ProductName,ProductDesc,ProductPrice")] Product product, IFormFile ProductImage, bool Editing)
+        {
+            //https://stackoverflow.com/questions/42741170/how-to-save-images-to-database-using-asp-net-core
+            if (ProductImage != null)
+            {
+                using (var ms = new MemoryStream())
+                {
+                    ProductImage.CopyTo(ms);
+                    product.ProductImage = ms.ToArray();
+                }
+            }
+
+            //Manual checking because cannot bind IFormFile directly to Product object
+            if (product.ProductImage == null && !Editing)
+            {
+                return "Please provide an image";
+            }
+
+            if (ModelState.IsValid)
+            {
+                return "OK";
+            }
+
+            return ModelState.Values.SelectMany(v => v.Errors.Select(b => b.ErrorMessage)).ToList()[0];
+        }
+
         // GET: Products/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
