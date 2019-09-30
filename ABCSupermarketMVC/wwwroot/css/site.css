@@ -2,6 +2,7 @@
 
 .body-content {
     padding: 30px;
+    padding-bottom:300px;
 }
 
 footer{
@@ -60,22 +61,29 @@ footer{
     margin: 0 auto;
 }
 
+.no-products-text{
+    font-size: 1.4em;
+    margin: 20px;
+}
+
 .card-wrapper {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    flex-shrink: 0;
 }
 
 .custom-card {
     margin: 15px;
-    background: rgba(255,255,255,0.9);
+    background: rgba(255,255,255,0.95);
     border-radius: 5px;
     border: 1px solid rgba(0,0,0,0.2);
     box-shadow: 2px 2px 15px 0px rgba(0,0,0,0.75);
     padding: 20px;
     flex-basis: 20%;
     flex-grow: 0;
+    flex-shrink: 0;
 }
 
 .product-card {
@@ -346,6 +354,14 @@ footer{
     display: flex;
     flex-direction: row;
     font-weight: 700;
+    align-items:center;
+}
+
+.home-search-bar{
+    margin-top:0;
+    margin-right: 20px;
+    width: 400px;
+    font-size: 1.2em;
 }
 
 form {

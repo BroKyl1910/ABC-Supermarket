@@ -8,44 +8,56 @@
     <div class="custom-card-header">
         <h1 class="title">Products</h1>
         <div class="header-controls">
+            <form action="/Products/Index" method="GET">
+                <input class="home-search-bar form-input" type="text" name="q" value="" placeholder="Search..." />
+            </form>
+            @*<input type="submit" name="name" value="" class="home-search-bar-submit"  />*@
+
             <a asp-controller="Products" asp-action="Create" class="material-icons big-icon">add_box</a>
         </div>
 
     </div>
     <div class="dark-hr"></div>
-    <div class="card-wrapper">
-        @foreach (Product product in Model)
-        {
-            <div class="custom-card product-card">
-                <div class="custom-container">
-                    <div class="options-wrapper">
-                        <i class="material-icons delete-icon" id="@product.ProductId">delete</i>
-                        <a asp-action="Edit" asp-route-id="@product.ProductId"><i class="material-icons edit-icon">edit</i></a>
-                    </div>
-                    <div class="index-image-container">
-                        <img class="card-img" src="data:image/jpeg;base64,@Convert.ToBase64String(product.ProductImage)" />
-                    </div>
-                    <div class="card-product-info">
-                        @if (product.ProductName.Length > 25)
-                        {
-                            <div class="custom-card-title custom-card-title-short">@product.ProductName.Substring(0, 25) ...</div>
-                            <div class="custom-card-title custom-card-title-full">@product.ProductName</div>
-                        }
-                        else
-                        {
-                            <div class="custom-card-title custom-card-title-short">@product.ProductName</div>
-                        }
-                        <span class="card-price">R @product.ProductPrice</span>
-                        <div class="desc-wrapper">
-                            <div class="card-desc">@product.ProductDesc</div>
+    @if (Model.Count() == 0)
+    {
+        <div class="no-products-text">No products found</div>
+    }
+    else
+    {
+        <div class="card-wrapper">
+            @foreach (Product product in Model)
+            {
+                <div class="custom-card product-card">
+                    <div class="custom-container">
+                        <div class="options-wrapper">
+                            <i class="material-icons delete-icon" id="@product.ProductId">delete</i>
+                            <a asp-action="Edit" asp-route-id="@product.ProductId"><i class="material-icons edit-icon">edit</i></a>
                         </div>
+                        <div class="index-image-container">
+                            <img class="card-img" src="data:image/jpeg;base64,@Convert.ToBase64String(product.ProductImage)" />
+                        </div>
+                        <div class="card-product-info">
+                            @if (product.ProductName.Length > 25)
+                            {
+                                <div class="custom-card-title custom-card-title-short">@product.ProductName.Substring(0, 25) ...</div>
+                                <div class="custom-card-title custom-card-title-full">@product.ProductName</div>
+                            }
+                            else
+                            {
+                                <div class="custom-card-title custom-card-title-short">@product.ProductName</div>
+                            }
+                            <span class="card-price">R @string.Format("{0:0.00}",(decimal)product.ProductPrice)</span>
+                            <div class="desc-wrapper">
+                                <div class="card-desc">@product.ProductDesc</div>
+                            </div>
+                        </div>
+
                     </div>
 
                 </div>
-
-            </div>
-        }
-    </div>
+            }
+        </div>
+    }
 
 </div>
 
@@ -64,6 +76,14 @@
 
 
 <script>
+    var referenceHeight;
+    $(window).on('load', () => {
+        console.log("loaded");
+        var firstCard = $('.product-card')[0];
+        referenceHeight = $(firstCard).height();
+        console.log(referenceHeight);
+
+    });
 
     var idToDelete = null;
     //Delete button pressed
@@ -115,33 +135,28 @@
             $(e.currentTarget).css("position", "relative");
             $(e.currentTarget).css("z-index", "1");
 
-            var referenceCard;
-            if ($(e.currentTarget) != $('.product-card')[0]) {
-                referenceCard = $('.product-card')[0];
-            } else {
-                referenceCard = $('.product-card')[1];
-            }
-
             //Only change bottom margin if card is not in the last row of 4 to prevent weird glitching
             var numCardsInLastRow = $('.product-card').length % 4;
-            var referenceHeight = $(referenceCard).height();
-            var newMarginBottom;
+            var newMarginBottom=10;
             if ($('.product-card').index($(e.currentTarget)) < $('.product-card').length - numCardsInLastRow) {
                 newMarginBottom = ($(e.currentTarget).height() + referenceHeight + 20) * - 1;
+                console.log(newMarginBottom);
+                console.log("Not bottom row");
             } else {
                 newMarginBottom = (referenceHeight + 20) * - 1;
+                console.log(newMarginBottom);
+                console.log("Bottom row");
             }
+
             $(e.currentTarget).css("margin-bottom", newMarginBottom + "px");
 
             $(descWrapper)
                 .stop(true, true)
-                .slideDown(100, () => {
-
-                });
+                .slideDown(100);
 
             if (fullTitle.length > 0) {
-                $(fullTitle).slideDown();
                 $(shortTitle).hide();
+                $(fullTitle).show();
             }
 
         },
@@ -151,9 +166,8 @@
             var fullTitle = $(e.currentTarget).find(".custom-card-title-full");
 
             if (fullTitle.length > 0) {
-                $(fullTitle).slideUp(100, () => {
-                    $(shortTitle).show();
-                });
+                $(fullTitle).hide();
+                $(shortTitle).show();
             }
 
             $(descWrapper)

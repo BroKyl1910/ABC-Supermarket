@@ -21,9 +21,13 @@ namespace ABCSupermarketMVC.Controllers
         }
 
         // GET: Products
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string q)
         {
-            return View(await _context.Product.OrderBy(p=> p.ProductName).ToListAsync());
+            if (q == null)
+            {
+                return View(await _context.Product.OrderBy(p=> p.ProductName).ToListAsync());
+            }
+            return View(await _context.Product.Where(p=>p.ProductName.Contains(q) || p.ProductDesc.Contains(q)).OrderBy(p => p.ProductName).ToListAsync());
         }
 
         // GET: Products/Create
@@ -36,6 +40,7 @@ namespace ABCSupermarketMVC.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<string> Create(string ProductName, string ProductDesc, string ProductPrice, IFormFile ProductImage)
         {
             Product product = new Product()
@@ -58,6 +63,7 @@ namespace ABCSupermarketMVC.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public string Validate([Bind("ProductID,ProductName,ProductDesc,ProductPrice")] Product product, IFormFile ProductImage, bool Editing)
         {
             //https://stackoverflow.com/questions/42741170/how-to-save-images-to-database-using-asp-net-core
@@ -71,9 +77,18 @@ namespace ABCSupermarketMVC.Controllers
             }
 
             //Manual checking because cannot bind IFormFile directly to Product object
+            /*ProductImage can be null because on loading the edit page, the image display is set but the image input isn't,
+             therefore when editing, the product can still have a stored image even if one isn't posted with the form*/
             if (product.ProductImage == null && !Editing)
             {
                 return "Please provide an image";
+            }
+
+            string[] acceptedImageFileTypes = new string[] {"png", "jpg","jpeg","gif" };
+
+            if(ProductImage!=null && !acceptedImageFileTypes.Contains(ProductImage.FileName.Split('.')[1]))
+            {
+                return "Please provide an image of type .png, .jpg, or .gif";
             }
 
             if (ModelState.IsValid)
@@ -105,6 +120,7 @@ namespace ABCSupermarketMVC.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<string> Edit(int ProductID, string ProductName, string ProductDesc, string ProductPrice, IFormFile ProductImage)
         {
             Product product = _context.Product.First(p => p.ProductId == ProductID);

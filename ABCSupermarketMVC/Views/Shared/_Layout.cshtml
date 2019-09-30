@@ -15,7 +15,7 @@
 
     </environment>
     <environment exclude="Development">
-       @* <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">*@
+        @* <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">*@
     </environment>
 </head>
 <body>
@@ -36,11 +36,12 @@
 
     <div class="container body-content">
         @RenderBody()
-        
-        <footer>
+
+        @* Removed in order to prevent glitching from margin changes on cards *@
+        @*<footer>
             <hr />
-            <p>&copy; 2019 - ABCSupermarketMVC</p>
-        </footer>
+            <p>&copy; 2019 - ABCSupermarketMVC Kyle Brooks</p>
+        </footer>*@
     </div>
 
     <environment include="Development">
