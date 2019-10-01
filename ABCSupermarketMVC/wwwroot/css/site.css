@@ -89,6 +89,7 @@ footer{
 .product-card {
     align-self: flex-start;
     flex-shrink: 0;
+    min-width: 150px;
 }
 
     .product-card:hover {
