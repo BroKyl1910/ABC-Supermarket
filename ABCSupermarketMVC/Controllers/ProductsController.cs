@@ -23,6 +23,7 @@ namespace ABCSupermarketMVC.Controllers
         // GET: Products
         public async Task<IActionResult> Index(string q)
         {
+            //q used to search
             if (q == null)
             {
                 return View(await _context.Product.OrderBy(p=> p.ProductName).ToListAsync());
@@ -37,8 +38,6 @@ namespace ABCSupermarketMVC.Controllers
         }
 
         // POST: Products/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<string> Create(string ProductName, string ProductDesc, string ProductPrice, IFormFile ProductImage)
@@ -49,6 +48,7 @@ namespace ABCSupermarketMVC.Controllers
                 ProductDesc = ProductDesc,
                 ProductPrice = Convert.ToDecimal(ProductPrice.Replace('.', ','))
             };
+
             //https://stackoverflow.com/questions/42741170/how-to-save-images-to-database-using-asp-net-core
             using (var ms = new MemoryStream())
             {
@@ -64,6 +64,8 @@ namespace ABCSupermarketMVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        /*Separate validation method so that I can perform backend validation on create and edit forms as I am not using razor, I'm using XMLHttpRequest
+          so I need to validate manually*/
         public string Validate([Bind("ProductID,ProductName,ProductDesc,ProductPrice")] Product product, IFormFile ProductImage, bool Editing)
         {
             //https://stackoverflow.com/questions/42741170/how-to-save-images-to-database-using-asp-net-core
@@ -117,8 +119,6 @@ namespace ABCSupermarketMVC.Controllers
 
 
         // POST: Products/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<string> Edit(int ProductID, string ProductName, string ProductDesc, string ProductPrice, IFormFile ProductImage)

@@ -83,6 +83,8 @@
         formData.append("ProductPrice", $('#prod-price').val().replace('.',','));
         formData.append("ProductDesc", $('#prod-desc').val());
         formData.append("ProductImage", $('#file')[0].files[0]);
+        /*Editing = false used to determine whether an image is required or not because if the user is editing,
+          there will already be an image assigned to the product*/
         formData.append("Editing", false);
 
         var validationRequest = new XMLHttpRequest();
@@ -107,6 +109,7 @@
                 $('.error-text').text(validationRequest.response);
             }
         }
+        //Send request
         validationRequest.send(formData);
     });
 </script>

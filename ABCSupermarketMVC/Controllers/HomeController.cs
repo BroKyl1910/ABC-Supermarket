@@ -4,8 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace ABCSupermarketMVC.Controllers
 {
     public class HomeController : Controller
@@ -13,6 +11,7 @@ namespace ABCSupermarketMVC.Controllers
         // GET: /Home/
         public IActionResult Index()
         {
+            //I don't want a home page, so as soon as the page loads, redirect to the products page
             return RedirectToAction("Index", "Products");
         }
     }

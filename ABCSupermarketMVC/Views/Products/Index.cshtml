@@ -11,7 +11,6 @@
             <form action="/Products/Index" method="GET">
                 <input class="home-search-bar form-input" type="text" name="q" value="" placeholder="Search..." />
             </form>
-            @*<input type="submit" name="name" value="" class="home-search-bar-submit"  />*@
 
             <a asp-controller="Products" asp-action="Create" class="material-icons big-icon">add_box</a>
         </div>
@@ -76,6 +75,7 @@
 
 
 <script>
+    //Reference height used to determine negative padding
     var referenceHeight;
     $(window).on('load', () => {
         console.log("loaded");
@@ -114,7 +114,7 @@
         });
     });
 
-    //Close popup
+    //Close popup if user clicks off
     $(document).mouseup(function (e) {
         var container = $(".form-wrapper");
 
@@ -122,30 +122,30 @@
             && container.has(e.target).length === 0) // ... nor a descendant of the container
         {
             $('#popup-container').fadeOut();
+            idToDelete = null;
         }
     });
 
     //Expand details on hover
     $(".product-card").hoverIntent(
         e => {
+            //Short and long title used to hide short truncated title and show full title
             var shortTitle = $(e.currentTarget).find(".custom-card-title-short");
             var fullTitle = $(e.currentTarget).find(".custom-card-title-full");
             var descWrapper = $(e.currentTarget).find(".desc-wrapper");
 
+            //Make sure that the hovered card description shows above the card underneath
             $(e.currentTarget).css("position", "relative");
             $(e.currentTarget).css("z-index", "1");
 
             //Only change bottom margin if card is not in the last row of 4 to prevent weird glitching
             var numCardsInLastRow = $('.product-card').length % 4;
-            var newMarginBottom=10;
+            var newMarginBottom = 10;
+            //Determine negative margin under card
             if ($('.product-card').index($(e.currentTarget)) < $('.product-card').length - numCardsInLastRow) {
                 newMarginBottom = ($(e.currentTarget).height() + referenceHeight + 20) * - 1;
-                console.log(newMarginBottom);
-                console.log("Not bottom row");
             } else {
                 newMarginBottom = (referenceHeight + 20) * - 1;
-                console.log(newMarginBottom);
-                console.log("Bottom row");
             }
 
             $(e.currentTarget).css("margin-bottom", newMarginBottom + "px");

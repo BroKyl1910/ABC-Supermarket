@@ -59,9 +59,11 @@
 }
 
 <script>
+    //There will be an assigned image, so hide "No image" text and show image
     $(".no-image-text").css("display", "none");
     $(".upload-img").css("display", "block");
 
+    //There will be an assigned image, so display edit not add
     $(".image-add-icon").css("display", "none");
     $(".image-edit-icon").css("display", "block");
 
@@ -90,6 +92,8 @@
         formData.append("ProductPrice", $('#prod-price').val().replace('.',','));
         formData.append("ProductDesc", $('#prod-desc').val());
         formData.append("ProductImage", $('#file')[0].files[0]);
+        /*Editing = true used to determine whether an image is required or not because if the user is editing,
+          there will already be an image assigned to the product*/
         formData.append("Editing", true);
 
         var validationRequest = new XMLHttpRequest();
@@ -114,6 +118,7 @@
                 $('.error-text').text(validationRequest.response);
             }
         }
+        //Send validation request
         validationRequest.send(formData);
     });
 </script>
